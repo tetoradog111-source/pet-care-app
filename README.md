@@ -1,4 +1,8 @@
 README
+https://www.figma.com/design/ltU9fcJI6BU7k4MVi1g9dO/%E3%83%9A%E3%83%83%E3%83%88%E3%82%B1%E3%82%A2%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3?node-id=0-1&t=khUddTIyKiIycaMv-1
+
+カレンダー部分
+https://kimiyoroom.com/calendar_2025_simple/
 
 README案：ペットケア共有アプリ（仮）
 1. サービス概要（※最後に書いてOK）
