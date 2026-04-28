@@ -4,6 +4,9 @@ https://www.figma.com/design/ltU9fcJI6BU7k4MVi1g9dO/%E3%83%9A%E3%83%83%E3%83%88%
 カレンダー部分
 https://kimiyoroom.com/calendar_2025_simple/
 
+ER図
+https://drive.google.com/file/d/1EVLgi2TTS00lQz4HsVX2LeLKjVRKWvtI/view?usp=sharing
+
 README案：ペットケア共有アプリ（仮）
 1. サービス概要（※最後に書いてOK）
 * このサービスはどんなサービスか 家族やパートナー間で、ペットの食事、散歩、通院などの「お世話の記録」をリアルタイムで共有・管理できるサービスです。
