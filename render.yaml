@@ -1,10 +1,9 @@
 services:
   - type: web
     name: pet-care-sharing-app
+    plan: free  # ← これを追加
     env: ruby
-    # 先ほど作ったスクリプトを実行
     buildCommand: ./bin/render-build.sh
-    # Railsを起動するコマンド
     startCommand: bundle exec puma -C config/puma.rb
     envVars:
       - key: DATABASE_URL
@@ -16,5 +15,6 @@ services:
 
 databases:
   - name: pet-care-db
+    plan: free  # ← データベースも free に設定
     databaseName: pet_care_sharing_app
     user: mako
