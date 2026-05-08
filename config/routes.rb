@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  root 'static_pages#top'
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  # ログイン関係（後でSessionsControllerなどを作る想定）
+  get 'login', to: 'static_pages#top' # 一旦トップを表示するようにしておく
+  post 'login', to: 'static_pages#top'
+
+  # 新規登録関係（後でUsersControllerなどを作る想定）
+  get 'signup', to: 'static_pages#top'
 end
