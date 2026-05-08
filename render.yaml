@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: pet-care-sharing-app
+    env: ruby
+    # 先ほど作ったスクリプトを実行
+    buildCommand: ./bin/render-build.sh
+    # Railsを起動するコマンド
+    startCommand: bundle exec puma -C config/puma.rb
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: pet-care-db
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false
+
+databases:
+  - name: pet-care-db
+    databaseName: pet_care_sharing_app
+    user: mako
