@@ -81,7 +81,7 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  <<: *default
+  #<<: *default
   url: <%= ENV['DATABASE_URL'] %>
   host:  # ← 空欄にすることで、defaultの「db」を上書き（解除）します
   user:  # ← 同様に空欄にして、defaultの「postgres」を解除
