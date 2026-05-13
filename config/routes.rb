@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'user_sessions/new'
+  get 'user_sessions/create'
+  get 'user_sessions/destroy'
   root 'static_pages#top'
 
   # ユーザー登録用
@@ -11,4 +14,11 @@ Rails.application.routes.draw do
   # ログイン関係（後で実装する際の器だけ作っておく）
   # 現時点ではエラーを避けるため、とりあえず root などに飛ばす設定でもOK
   get 'login', to: 'static_pages#top', as: :login 
+
+  # ログイン画面
+get 'login', to: 'user_sessions#new'
+# ログイン実行
+post 'login', to: 'user_sessions#create'
+# ログアウト
+delete 'logout', to: 'user_sessions#destroy'
 end

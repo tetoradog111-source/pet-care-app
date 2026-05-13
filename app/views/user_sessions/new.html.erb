@@ -1,0 +1,31 @@
+<% content_for(:title, "ログイン") %>
+<div class="container">
+  <div class="row">
+    <!-- デザインを新規登録画面に合わせ、中央寄せに設定 -->
+    <div class="col-md-10 col-lg-8 mx-auto">
+      <h1 class="text-center my-4">ログイン</h1>
+
+      <%# モデルがないため、url: login_path を指定します %>
+      <%= form_with url: login_path, local: true do |f| %>
+        <div class="mb-3">
+          <%= f.label :email, "メールアドレス", class: "form-label" %>
+          <%= f.email_field :email, class: "form-control", placeholder: "example@example.com" %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :password, "パスワード", class: "form-label" %>
+          <%= f.password_field :password, class: "form-control" %>
+        </div>
+
+        <div class="d-grid gap-2">
+          <%# 以前設定したオレンジ色のボタンクラス（btn-primaryなど）を適用 %>
+          <%= f.submit "ログイン", class: "btn btn-primary btn-lg" %>
+        </div>
+      <% end %>
+
+      <div class="text-center mt-3">
+        <%= link_to "新規登録はこちら", signup_path, class: "text-decoration-none" %>
+      </div>
+    </div>
+  </div>
+</div>
