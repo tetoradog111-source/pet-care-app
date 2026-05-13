@@ -1,52 +1,58 @@
-<div class="min-h-screen bg-orange-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-  <div class="sm:mx-auto sm:w-full sm:max-w-md text-center">
-    <!-- ロゴ代わりのアイコン（絵文字で代用） -->
-    <div class="text-6xl mb-4">🐾</div>
-    <h2 class="text-3xl font-extrabold text-orange-900 tracking-tight">
-      Pet Care Sharing App
-    </h2>
-    <p class="mt-2 text-sm text-orange-700">
-      お世話のバトンを、もっとスムーズに。
-    </p>
-  </div>
+<div class="min-vh-100 d-flex align-items-center justify-content-center py-5" style="background-color: #fffaf0;">
+  <%# 全体を縦長に収めるためのコンテナ %>
+  <div class="container" style="max-width: 450px;">
+    
+    <!-- ロゴ・ヘッダー部分（上中央・縦並び） -->
+    <div class="text-center mb-4">
+      <div style="font-size: 4.5rem;" class="mb-2">🐾</div>
+      <h2 class="fw-bold tracking-tight" style="color: #7c2d12; font-size: 1.8rem;">
+        Pet Care Sharing App
+      </h2>
+      <p class="small" style="color: #ea580c;">
+        お世話のバトンを、もっとスムーズに。
+      </p>
+    </div>
 
-  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-    <div class="bg-white py-8 px-4 shadow-xl rounded-3xl sm:px-10 border-t-8 border-orange-400">
+    <!-- カード部分 -->
+    <div class="bg-white p-4 p-sm-5 shadow-lg border-top border-5" 
+         style="border-color: #fb923c !important; border-radius: 2.5rem !important;">
       
-      <!-- ログインフォーム -->
-      <%= form_with url: "#", local: true, class: "space-y-6" do |f| %>
-        <div>
-          <%= f.label :email, "メールアドレス", class: "block text-sm font-medium text-gray-700" %>
-          <div class="mt-1">
-            <%= f.email_field :email, class: "appearance-none block w-full px-3 py-3 border border-orange-200 rounded-xl shadow-sm focus:ring-orange-500 focus:border-orange-500" %>
-          </div>
+      <%= form_with url: login_path, local: true do |f| %>
+        <div class="mb-4">
+          <%= f.label :email, "メールアドレス", class: "form-label fw-bold text-muted small ms-2" %>
+          <%= f.email_field :email, class: "form-control form-control-lg border-light-subtle rounded-4 px-3", 
+              style: "background-color: #fcfcfc; font-size: 0.9rem;" %>
         </div>
 
-        <div>
-          <%= f.label :password, "パスワード", class: "block text-sm font-medium text-gray-700" %>
-          <div class="mt-1">
-            <%= f.password_field :password, class: "appearance-none block w-full px-3 py-3 border border-orange-200 rounded-xl shadow-sm focus:ring-orange-500 focus:border-orange-500" %>
-          </div>
+        <div class="mb-4">
+          <%= f.label :password, "パスワード", class: "form-label fw-bold text-muted small ms-2" %>
+          <%= f.password_field :password, class: "form-control form-control-lg border-light-subtle rounded-4 px-3", 
+              style: "background-color: #fcfcfc; font-size: 0.9rem;" %>
         </div>
 
-        <div>
-          <%= f.submit "ログイン", class: "w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-sm text-base font-bold text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition duration-150" %>
+        <div class="d-grid gap-2 mt-4">
+          <%= f.submit "ログイン", class: "btn btn-lg fw-bold text-white shadow-sm rounded-pill py-3", 
+              style: "background-color: #f97316; border: none; font-size: 1rem;" %>
         </div>
       <% end %>
 
       <!-- 区切り線 -->
-      <div class="mt-6 relative">
-        <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-gray-200"></div></div>
-        <div class="relative flex justify-center text-sm"><span class="px-2 bg-white text-gray-400">はじめての方はこちら</span></div>
+      <div class="position-relative my-4 text-center">
+        <hr class="text-secondary-opacity-25">
+        <span class="position-absolute top-50 start-50 translate-middle px-3 bg-white text-muted" style="font-size: 0.75rem;">
+          はじめての方はこちら
+        </span>
       </div>
 
-      <div class="mt-6">
-        <%= link_to "新規登録（無料）", "#", class: "w-full flex justify-center py-3 px-4 border-2 border-orange-400 rounded-full text-base font-bold text-orange-500 bg-white hover:bg-orange-50 transition duration-150" %>
+      <div class="d-grid gap-2">
+        <%= link_to "新規登録（無料）", signup_path, 
+            class: "btn btn-lg btn-outline-warning fw-bold rounded-pill py-3", 
+            style: "color: #f97316; border-color: #fb923c; font-size: 1rem;" %>
       </div>
     </div>
     
-    <!-- 補足メッセージ -->
-    <p class="mt-8 text-center text-xs text-gray-500">
+    <!-- 下部の補足メッセージ -->
+    <p class="mt-4 text-center text-muted" style="font-size: 0.7rem;">
       大切な家族のお世話を、みんなでシェア。
     </p>
   </div>

@@ -1,12 +1,16 @@
-<footer class="bg-orange-50 border-t border-orange-100">
-  <div class="max-w-7xl mx-auto py-8 px-4 overflow-hidden sm:px-6 lg:px-8">
-    <nav class="flex flex-wrap justify-center -mx-5 -my-2">
-      <div class="px-5 py-2 text-base text-gray-500 hover:text-gray-900">利用規約</div>
-      <div class="px-5 py-2 text-base text-gray-500 hover:text-gray-900">プライバシーポリシー</div>
-      <div class="px-5 py-2 text-base text-gray-500 hover:text-gray-900">お問い合わせ</div>
-    </nav>
-    <p class="mt-8 text-center text-base text-gray-400">
-      &copy; 2026 Pet Care Sharing App. All rights reserved.
-    </p>
+<footer class="mt-auto py-4 border-top" style="background-color: #fffaf0;">
+  <div class="container text-center">
+    <%# 足跡アイコンをフッターにも小さく配置 %>
+    <div class="mb-3" style="font-size: 1.2rem;">🐾</div>
+    
+    <div class="d-flex justify-content-center flex-wrap gap-4 mb-3">
+      <%= link_to "利用規約", "#", class: "text-decoration-none small fw-bold", style: "color: #7c2d12;" %>
+      <%= link_to "プライバシーポリシー", "#", class: "text-decoration-none small fw-bold", style: "color: #7c2d12;" %>
+      <%= link_to "お問い合わせ", "#", class: "text-decoration-none small fw-bold", style: "color: #7c2d12;" %>
+    </div>
+    
+    <p class="text-muted mb-0" style="font-size: 0.75rem;">
+      &copy; <%= Time.current.year %> Pet Care Sharing App. All rights reserved.
+    </div>
   </div>
 </footer>

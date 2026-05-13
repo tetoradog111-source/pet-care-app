@@ -1,0 +1,57 @@
+<div class="min-vh-100 d-flex align-items-center justify-content-center py-5" style="background-color: #fffaf0;">
+  <div class="container" style="max-width: 450px;">
+    
+    <!-- ヘッダー部分（トップページと共通のトーン） -->
+    <div class="text-center mb-4">
+      <div style="font-size: 3.5rem;" class="mb-2">🐾</div>
+      <h2 class="fw-bold" style="color: #7c2d12;">新規会員登録</h2>
+      <p class="small" style="color: #ea580c;">
+        ペットとの暮らしを、もっと楽しく。
+      </p>
+    </div>
+
+    <!-- カード部分 -->
+    <div class="bg-white p-4 p-sm-5 shadow-lg border-top border-5" 
+         style="border-color: #fb923c !important; border-radius: 2.5rem !important;">
+      
+      <%= form_with model: @user, local: true do |f| %>
+        <%# エラーメッセージの表示 %>
+        <%= render 'shared/error_messages', object: f.object if f.object.errors.any? %>
+
+        <div class="mb-3">
+          <%= f.label :name, "お名前", class: "form-label fw-bold text-muted small ms-2" %>
+          <%= f.text_field :name, class: "form-control form-control-lg border-light-subtle rounded-4 px-3", 
+              style: "background-color: #fcfcfc; font-size: 0.9rem;", placeholder: "ペット 太郎" %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :email, "メールアドレス", class: "form-label fw-bold text-muted small ms-2" %>
+          <%= f.email_field :email, class: "form-control form-control-lg border-light-subtle rounded-4 px-3", 
+              style: "background-color: #fcfcfc; font-size: 0.9rem;", placeholder: "mail@example.com" %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :password, "パスワード", class: "form-label fw-bold text-muted small ms-2" %>
+          <%= f.password_field :password, class: "form-control form-control-lg border-light-subtle rounded-4 px-3", 
+              style: "background-color: #fcfcfc; font-size: 0.9rem;" %>
+        </div>
+
+        <div class="mb-4">
+          <%= f.label :password_confirmation, "パスワード確認", class: "form-label fw-bold text-muted small ms-2" %>
+          <%= f.password_field :password_confirmation, class: "form-control form-control-lg border-light-subtle rounded-4 px-3", 
+              style: "background-color: #fcfcfc; font-size: 0.9rem;" %>
+        </div>
+
+        <div class="d-grid gap-2 mt-4">
+          <%= f.submit "登録する（無料）", class: "btn btn-lg fw-bold text-white shadow-sm rounded-pill py-3", 
+              style: "background-color: #f97316; border: none; font-size: 1rem;" %>
+        </div>
+      <% end %>
+
+      <div class="text-center mt-4">
+        <%= link_to "既にアカウントをお持ちの方", login_path, 
+            class: "small text-decoration-none", style: "color: #ea580c;" %>
+      </div>
+    </div>
+  </div>
+</div>

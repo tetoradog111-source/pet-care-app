@@ -10,15 +10,22 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
-  <body class="flex flex-col min-h-screen bg-orange-50">
-    <!-- ヘッダーを呼び出す -->
+  <body class="d-flex flex-column min-vh-100" style="background-color: #fffaf0;">
     <%= render 'shared/header' %>
 
-    <main class="flex-grow">
+    <%# flashメッセージの表示エリア %>
+    <div class="container mt-3">
+      <% flash.each do |message_type, message| %>
+        <div class="alert alert-<%= message_type == 'notice' ? 'success' : 'danger' %>">
+          <%= message %>
+        </div>
+      <% end %>
+    </div>
+
+    <main class="flex-grow-1 container py-4">
       <%= yield %>
     </main>
 
-    <!-- フッターを呼び出す -->
     <%= render 'shared/footer' %>
   </body>
 </html>

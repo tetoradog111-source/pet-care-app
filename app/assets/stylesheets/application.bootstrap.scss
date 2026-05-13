@@ -1,0 +1,11 @@
+@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap-icons/font/bootstrap-icons';
+// 変数を上書きしてカスタマイズ
+$primary: #ff9f43; // Figmaで使っている色コードに変更
+
+@import "bootstrap/scss/bootstrap";
+
+// さらに細かい調整
+.btn {
+  border-radius: 50px; // ボタンを丸くするなど
+}
