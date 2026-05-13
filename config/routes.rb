@@ -1,8 +1,14 @@
 Rails.application.routes.draw do
+  get 'group_members/new'
+  get 'group_members/create'
+  get 'groups/new'
+  get 'groups/create'
+  get 'groups/show'
   get 'user_sessions/new'
   get 'user_sessions/create'
   get 'user_sessions/destroy'
   root 'static_pages#top'
+  resources :groups, only: [:new, :create, :show]
 
   # ユーザー登録用
   # /signup で UsersController の new アクション（登録画面）を呼び出す
