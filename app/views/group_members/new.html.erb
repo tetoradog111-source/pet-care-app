@@ -1,2 +1,30 @@
-<h1>GroupMembers#new</h1>
-<p>Find me in app/views/group_members/new.html.erb</p>
+<% content_for(:title, "グループに参加") %>
+<div class="container py-5">
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+          <h1 class="text-center mb-4" style="color: #7c2d12;">🏠 グループに参加する</h1>
+          <p class="text-muted text-center mb-4 small">
+            家族から共有された10桁の招待コードを入力してください。
+          </p>
+
+          <%= form_with url: group_members_path, local: true do |f| %>
+            <div class="mb-4">
+              <%= f.label :invite_code, "招待コード", class: "form-label fw-bold" %>
+              <%= f.text_field :invite_code, class: "form-control form-control-lg text-center", placeholder: "例: a1b2c3d4e5", style: "letter-spacing: 0.1em;" %>
+            </div>
+
+            <div class="d-grid">
+              <%= f.submit "参加する", class: "btn btn-primary btn-lg", style: "background-color: #ea580c; border: none;" %>
+            </div>
+          <% end %>
+
+          <div class="mt-4 text-center">
+            <%= link_to "新しくグループを作る方はこちら", new_group_path, class: "text-decoration-none small", style: "color: #ea580c;" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

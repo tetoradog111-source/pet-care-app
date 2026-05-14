@@ -50,6 +50,12 @@
             style: "color: #f97316; border-color: #fb923c; font-size: 1rem;" %>
       </div>
     </div>
+
+    <div class="d-flex gap-3 justify-content-center mt-4">
+  <%# グループ作成へのリンク %>
+  <%= link_to new_group_path, class: "btn btn-lg shadow-sm", style: "background-color: #ea580c; color: white; border: none;" do %>
+    🐾 新しいグループを作る
+  <% end %>
     
     <!-- 下部の補足メッセージ -->
     <p class="mt-4 text-center text-muted" style="font-size: 0.7rem;">

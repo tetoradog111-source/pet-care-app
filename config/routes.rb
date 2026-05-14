@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   get 'user_sessions/destroy'
   root 'static_pages#top'
   resources :groups, only: [:new, :create, :show]
+  resources :group_members, only: [:new, :create]
+  resources :groups, only: [:new, :create, :show]
+  resources :group_members, only: [:new, :create]
 
   # ユーザー登録用
   # /signup で UsersController の new アクション（登録画面）を呼び出す
