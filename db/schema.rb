@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_05_13_122738) do
+ActiveRecord::Schema[7.0].define(version: 2026_05_14_094422) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -32,6 +32,17 @@ ActiveRecord::Schema[7.0].define(version: 2026_05_13_122738) do
     t.index ["invite_code"], name: "index_groups_on_invite_code"
   end
 
+  create_table "pets", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "species"
+    t.integer "gender", default: 0, null: false
+    t.integer "age"
+    t.bigint "group_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_pets_on_group_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
     t.string "email", null: false
@@ -44,4 +55,5 @@ ActiveRecord::Schema[7.0].define(version: 2026_05_13_122738) do
 
   add_foreign_key "group_members", "groups"
   add_foreign_key "group_members", "users"
+  add_foreign_key "pets", "groups"
 end

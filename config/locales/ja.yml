@@ -1,0 +1,7 @@
+ja:
+  enums:
+    pet:
+      gender:
+        unknown: "不明"
+        male: "男の子（オス）"
+        female: "女の子（メス）"

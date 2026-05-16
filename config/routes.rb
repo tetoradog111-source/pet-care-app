@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'pets/new'
+  get 'pets/create'
+  get 'pets/show'
   get 'group_members/new'
   get 'group_members/create'
   get 'groups/new'
@@ -12,6 +15,9 @@ Rails.application.routes.draw do
   resources :group_members, only: [:new, :create]
   resources :groups, only: [:new, :create, :show]
   resources :group_members, only: [:new, :create]
+  resources :groups do
+  resources :pets, only: [:new, :create, :show]
+  end
 
   # ユーザー登録用
   # /signup で UsersController の new アクション（登録画面）を呼び出す
@@ -19,6 +25,9 @@ Rails.application.routes.draw do
   
   # resources を使うことで /users (POST) などの基本ルートを作成
   resources :users, only: %i[create]
+  resources :groups do
+  resources :pets, only: [:new, :create, :show]
+end
 
   # ログイン関係（後で実装する際の器だけ作っておく）
   # 現時点ではエラーを避けるため、とりあえず root などに飛ばす設定でもOK

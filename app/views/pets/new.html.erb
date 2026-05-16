@@ -1,0 +1,56 @@
+<% content_for(:title, "ペット登録") %>
+<div class="container py-5">
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+          <h1 class="text-center h3 mb-4" style="color: #7c2d12;">🐾 新しいペットを登録</h1>
+          <p class="text-muted text-center mb-4 small">
+            「<%= @group.name %>」に参加するペットの情報を入力してください。
+          </p>
+
+          <%= form_with model: [@group, @pet], local: true do |f| %>
+            <%# 先ほど作った共通エラーメッセージのパーシャル %>
+            <%= render 'shared/error_messages', object: f.object %>
+
+            <%# ペットの名前 %>
+            <div class="mb-3">
+              <%= f.label :name, "ペットのお名前", class: "form-label fw-bold small text-muted" %>
+              <%= f.text_field :name, class: "form-control form-control-lg", placeholder: "例: ポチ、ココ" %>
+            </div>
+
+            <%# ペットの種類 %>
+            <div class="mb-3">
+              <%= f.label :species, "種類（犬種・猫種など）", class: "form-label fw-bold small text-muted" %>
+              <%= f.text_field :species, class: "form-control", placeholder: "例: 柴犬、スコティッシュフォールド" %>
+            </div>
+
+            <%# 年齢 %>
+            <div class="mb-3">
+              <%= f.label :age, "年齢", class: "form-label fw-bold small text-muted" %>
+              <div class="input-group">
+                <%= f.number_field :age, class: "form-control", min: 0, placeholder: "例: 3" %>
+                <span class="input-group-text">歳</span>
+              </div>
+            </div>
+
+            <%# 性別（セレクトボックス） %>
+            <div class="mb-4">
+              <%= f.label :gender, "性別", class: "form-label fw-bold small text-muted" %>
+              <%= f.select :gender, [["男の子（オス）", "male"], ["女の子（メス）", "female"], ["不明", "unknown"]], { include_blank: "選択してください" }, class: "form-select" %>
+            </div>
+
+            <%# 送信ボタン %>
+            <div class="d-grid">
+              <%= f.submit "登録する", class: "btn btn-primary btn-lg text-white", style: "background-color: #ea580c; border: none;" %>
+            </div>
+          <% end %>
+
+          <div class="mt-4 text-center">
+            <%= link_to "戻る", group_path(@group), class: "text-decoration-none small text-muted" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

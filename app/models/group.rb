@@ -8,6 +8,7 @@ class Group < ApplicationRecord
   validates :invite_code, uniqueness: true
   has_many :group_members, dependent: :destroy
   has_many :users, through: :group_members
+  has_many :pets, dependent: :destroy
 
   private
 
