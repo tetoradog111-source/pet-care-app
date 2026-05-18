@@ -1,2 +1,42 @@
-<h1>Pets#show</h1>
-<p>Find me in app/views/pets/show.html.erb</p>
+<div class="container mt-4">
+  <div class="mb-3">
+    <%= link_to "← 一覧に戻る", group_path(@group), class: "text-decoration-none text-muted" %>
+  </div>
+
+  <div class="card shadow-sm mx-auto" style="max-width: 500px;">
+    <div class="card-body text-center">
+      <div class="display-1 mb-3">🐶</div>
+      
+      <h2 class="card-title fw-bold mb-1"><%= @pet.name %></h2>
+      
+      <% # ⭕ 修正：@pet.kind から @pet.species に書き換えます %>
+      <p class="text-muted mb-4"><%= @pet.species %></p>
+
+      <table class="table table-borderless text-start mx-auto" style="max-width: 300px;">
+        <tbody>
+          <tr>
+            <th scope="row" class="text-muted fw-normal">年齢</th>
+            <td class="fw-bold text-end"><%= @pet.age %> 歳</td>
+          </tr>
+          <% # 💡 ついでにデータに入っている「性別（gender）」も表示できるようにしておきましょう！ %>
+          <tr>
+            <th scope="row" class="text-muted fw-normal">性別</th>
+            <td class="fw-bold text-end">
+              <%= @pet.gender == 'male' ? 'オス ♂' : 'メス ♀' %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <hr class="my-4">
+
+      <div class="d-grid gap-2">
+        <%= link_to "情報を編集する", edit_group_pet_path(@group, @pet), class: "btn btn-outline-dark fw-bold" %>
+        
+        <%= link_to "ファミリーから削除する", group_pet_path(@group, @pet), 
+                    class: "btn btn-link text-danger text-decoration-none fw-bold mt-2", 
+                    data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" } %>
+      </div>
+    </div>
+  </div>
+</div>

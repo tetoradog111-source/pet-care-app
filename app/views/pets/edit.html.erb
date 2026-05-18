@@ -1,0 +1,65 @@
+<div class="container mt-4" style="max-width: 500px;">
+  <div class="mb-3">
+    <%= link_to "← 詳細に戻る", group_pet_path(@group, @pet), class: "text-decoration-none text-muted" %>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h2 class="card-title fw-bold text-center mb-4">ペット情報の編集</h2>
+
+      <%= form_with(model: [@group, @pet], local: true) do |f| %>
+        
+        <!-- エラーメッセージの表示部分 -->
+        <% if @pet.errors.any? %>
+          <div class="alert alert-danger">
+            <ul class="mb-0">
+              <% @pet.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <!-- 名前 -->
+        <div class="mb-3">
+          <%= f.label :name, "名前", class: "form-label fw-bold" %>
+          <%= f.text_field :name, class: "form-control", placeholder: "例: ゴルゴ" %>
+        </div>
+
+        <!-- 種類 -->
+        <div class="mb-3">
+          <%= f.label :species, "種類", class: "form-label fw-bold" %>
+          <%= f.text_field :species, class: "form-control", placeholder: "例: ミックス、柴犬など" %>
+        </div>
+
+        <!-- 年齢 -->
+        <div class="mb-3">
+          <%= f.label :age, "年齢", class: "form-label fw-bold" %>
+          <div class="input-group">
+            <%= f.number_field :age, class: "form-control", min: 0 %>
+            <span class="input-group-text">歳</span>
+          </div>
+        </div>
+
+        <!-- 性別 -->
+        <div class="mb-4">
+          <%= f.label :gender, "性別", class: "form-label fw-bold d-block" %>
+          <div class="form-check form-check-inline">
+            <%= f.radio_button :gender, "male", class: "form-check-input" %>
+            <%= f.label :gender_male, "オス ♂", class: "form-check-label" %>
+          </div>
+          <div class="form-check form-check-inline">
+            <%= f.radio_button :gender, "female", class: "form-check-input" %>
+            <%= f.label :gender_female, "メス ♀", class: "form-check-label" %>
+          </div>
+        </div>
+
+        <!-- 送信ボタン -->
+        <div class="d-grid">
+          <%= f.submit "変更を保存する", class: "btn btn-dark fw-bold btn-lg" %>
+        </div>
+
+      <% end %>
+    </div>
+  </div>
+</div>

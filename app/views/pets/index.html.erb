@@ -1,0 +1,52 @@
+<% content_for(:title, "ペット一覧") %>
+<div class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-5 mx-auto" style="max-width: 800px;">
+    <h1 class="h2 fw-bold mb-0" style="color: #7c2d12;">🐾 <%= @group.name %> のペットたち</h1>
+    <%= link_to new_group_pet_path(@group), class: "btn text-white shadow-sm", style: "background-color: #ea580c; border: none;" do %>
+      ＋ 新しいペットを登録
+    <% end %>
+  </div>
+
+  <div class="row row-cols-1 row-cols-md-3 g-4 mx-auto" style="max-width: 800px;">
+    <% if @pets.any? %>
+      <% @pets.each do |pet| %>
+        <div class="col">
+          <div class="card h-100 shadow-sm border-0 position-relative" style="border-radius: 1rem; overflow: hidden;">
+            <%# ここに将来的にペットの画像（Active Storageなど）を入れられるように枠を作っておきます %>
+            <div class="bg-light d-flex align-items-center justify-content-center" style="height: 160px; background-color: #fef3c7 !important;">
+              <span class="display-3">🐶</span> <%# 猫などのアイコン分岐を後で入れても楽しいです %>
+            </div>
+            
+            <div class="card-body p-4 text-center">
+              <h2 class="card-title h4 fw-bold text-dark mb-2"><%= pet.name %></h2>
+              <span class="badge bg-secondary mb-3 px-3 py-2" style="font-size: 0.85rem;"><%= pet.species %></span>
+              
+              <p class="card-text text-muted small mb-0">
+                <%= "#{pet.age}歳" if pet.age.present? %> 
+                (<%= pet.gender_text %>)
+              </p>
+            </div>
+
+            <%# 詳細画面へのリンク（後で実装する個別画面用） %>
+            <h5 class="card-title fw-bold">
+  <%= link_to "🐶 #{pet.name}", group_pet_path(@group, pet), class: "text-decoration-none text-dark" %>
+</h5>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="col-12 text-center py-5">
+        <div class="card card-body border-0 bg-light p-5 text-muted">
+          <p class="mb-3">まだペットが登録されていません。</p>
+          <div>
+            <%= link_to "最初のペットを登録する", new_group_pet_path(@group), class: "btn text-white btn-sm", style: "background-color: #ea580c; border: none;" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mt-5 text-center">
+    <%= link_to "グループ詳細へ戻る", group_path(@group), class: "text-decoration-none small text-muted" %>
+  </div>
+</div>

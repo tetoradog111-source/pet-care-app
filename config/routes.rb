@@ -1,42 +1,21 @@
 Rails.application.routes.draw do
-  get 'pets/new'
-  get 'pets/create'
-  get 'pets/show'
-  get 'group_members/new'
-  get 'group_members/create'
-  get 'groups/new'
-  get 'groups/create'
-  get 'groups/show'
-  get 'user_sessions/new'
-  get 'user_sessions/create'
-  get 'user_sessions/destroy'
   root 'static_pages#top'
-  resources :groups, only: [:new, :create, :show]
-  resources :group_members, only: [:new, :create]
-  resources :groups, only: [:new, :create, :show]
-  resources :group_members, only: [:new, :create]
-  resources :groups do
-  resources :pets, only: [:new, :create, :show]
-  end
+
+  # ログイン・ログアウト関係
+  get 'login', to: 'user_sessions#new'
+  post 'login', to: 'user_sessions#create'
+  delete 'logout', to: 'user_sessions#destroy'
 
   # ユーザー登録用
-  # /signup で UsersController の new アクション（登録画面）を呼び出す
   get 'signup', to: 'users#new'
+  resources :users, only: [:create]
+
+  # グループ・ペット管理関係
+  resources :group_members, only: [:new, :create]
   
-  # resources を使うことで /users (POST) などの基本ルートを作成
-  resources :users, only: %i[create]
-  resources :groups do
-  resources :pets, only: [:new, :create, :show]
-end
-
-  # ログイン関係（後で実装する際の器だけ作っておく）
-  # 現時点ではエラーを避けるため、とりあえず root などに飛ばす設定でもOK
-  get 'login', to: 'static_pages#top', as: :login 
-
-  # ログイン画面
-get 'login', to: 'user_sessions#new'
-# ログイン実行
-post 'login', to: 'user_sessions#create'
-# ログアウト
-delete 'logout', to: 'user_sessions#destroy'
+  # 💡 グループとペットの親子関係を1つに綺麗にまとめました
+  resources :groups, only: [:new, :create, :show] do
+    # ⭕ only を無くす（または [:index, :new, :create, :show, :edit, :update, :destroy] にする）ことでフル機能を使えるようにします
+    resources :pets
+  end
 end

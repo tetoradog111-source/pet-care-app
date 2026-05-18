@@ -26,6 +26,9 @@
       <%= yield %>
     </main>
 
-    <%= render 'shared/footer' %>
+    <%# 💡 修正：ログインしていない場合のみ、従来のフッターを表示する %>
+    <% unless logged_in? %>
+      <%= render 'shared/footer' %>
+    <% end %>
   </body>
 </html>
