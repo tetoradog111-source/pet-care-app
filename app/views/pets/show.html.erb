@@ -41,28 +41,38 @@
       </div>
     </div>
 
-    <!-- 🛠️ 右側（または下部）：お世話の項目設定 -->
+    <!-- 🛠️ 右側（または下部）：お世話の管理エリア -->
     <div class="col-md-7">
       <h4 class="fw-bold mb-3 d-flex align-items-center">
-        <span class="me-2">🛠️</span> お世話の項目設定
+        <span class="me-2">🛠️</span> お世話の管理・記録
       </h4>
       
-      <!-- 1. 現在登録されているお世話項目の一覧 -->
+      <!-- 1. お世話の記録ボタン（現在の登録項目をボタン化） -->
       <div class="card shadow-sm border-0 mb-4">
         <div class="card-body p-4">
-          <h6 class="fw-bold text-muted mb-3">現在の登録項目</h6>
+          <h6 class="fw-bold text-muted mb-3">ワンタップで今のお世話を記録</h6>
           
           <% if @pet.care_items.select(&:persisted?).any? %>
-            <div class="d-flex flex-wrap gap-2">
+            <div class="d-flex flex-wrap gap-3">
               <% @pet.care_items.select(&:persisted?).each do |item| %>
-                <div class="border rounded-pill ps-3 pe-2 py-2 bg-light d-flex align-items-center shadow-sm text-secondary small">
-                  <span class="fw-bold me-2"><%= item.name %></span>
-                  
-                  <%= link_to group_pet_care_item_path(@group, @pet, item), 
-                              data: { turbo_method: :delete, turbo_confirm: "「#{item.name}」を削除しますか？" }, 
-                              class: "badge bg-danger-subtle text-danger rounded-circle text-decoration-none fw-bold ms-1", style: "padding: 0.25em 0.45em;" do %>
-                    ×
-                  <% end %>
+                <div class="card border border-light shadow-sm flex-fill" style="min-width: 140px;">
+                  <div class="card-body text-center p-3">
+                    <p class="fw-bold mb-2 text-dark"><%= item.name %></p>
+                    
+                    <!-- 完了ボタン：押した瞬間の日時で CareRecord を作成 -->
+                    <%= button_to "完了", group_pet_care_records_path(@group, @pet, care_item_id: item.id), 
+                                  method: :post, 
+                                  class: "btn btn-sm btn-dark w-100 rounded-pill fw-bold" %>
+                    
+                    <!-- 項目削除ボタン -->
+                    <div class="mt-2 text-end">
+                      <%= link_to group_pet_care_item_path(@group, @pet, item), 
+                                  data: { turbo_method: :delete, turbo_confirm: "「#{item.name}」の設定自体を削除しますか？\n（過去の記録もすべて消えます）" }, 
+                                  class: "text-decoration-none text-danger x-small opacity-50 hover-opacity-100" do %>
+                        項目を削除
+                      <% end %>
+                    </div>
+                  </div>
                 </div>
               <% end %>
             </div>
@@ -75,17 +85,55 @@
         </div>
       </div>
 
-      <!-- 2. 新しいお世話項目の追加フォーム -->
+      <!-- 2. 今日のお世話履歴の一覧 -->
+      <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body p-4">
+          <h6 class="fw-bold text-muted mb-3">🕒 今日のお世話履歴</h6>
+          
+          <% today_records = @pet.care_records.where(recorded_at: Time.current.all_day).order(recorded_at: :desc) %>
+          
+          <% if today_records.any? %>
+            <div class="list-group list-group-flush">
+              <% today_records.each do |record| %>
+                <div class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent">
+                  <div>
+                    <!-- お世話の項目名 -->
+                    <span class="badge bg-success me-2 px-2 py-1.5"><%= record.care_item.name %></span>
+                    
+                    <!-- 💡 追加：お世話をしたユーザーの名前 -->
+                    <span class="small text-dark fw-bold me-2">
+                      <%= record.user.name %> さん
+                    </span>
+                    
+                    <!-- 記録された時間 -->
+                    <span class="x-small text-secondary">
+                      <%= l(record.recorded_at, format: :short) %>
+                    </span>
+                  </div>
+                  <!-- 記録の取り消しリンク -->
+                  <%= link_to "取り消し", group_pet_care_record_path(@group, @pet, record), 
+                              data: { turbo_method: :delete, turbo_confirm: "この記録を削除しますか？" }, 
+                              class: "btn btn-link text-danger text-decoration-none btn-sm opacity-75 fw-bold" %>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="text-muted text-center py-3 mb-0 small">今日のお世話はまだ記録されていません。</p>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- 3. 新しいお世話項目の追加フォーム -->
       <div class="card shadow-sm border-0">
         <div class="card-body p-4">
-          <h6 class="fw-bold text-muted mb-3">新しい項目を追加する</h6>
+          <h6 class="fw-bold text-muted mb-3">新しいお世話項目（選択肢）を増やす</h6>
           
           <%= form_with(model: [@group, @pet, @care_item], local: true, class: "row g-2") do |f| %>
             <div class="col">
-              <%= f.text_field :name, class: "form-control form-control-sm", placeholder: "例: ごはん、散歩、ブラッシング、投薬" %>
+              <%= f.text_field :name, class: "form-control form-control-sm", placeholder: "例: ブラッシング、耳掃除、サプリ、投薬" %>
             </div>
             <div class="col-auto">
-              <%= f.submit "追加", class: "btn btn-dark btn-sm fw-bold px-3" %>
+              <%= f.submit "項目を追加", class: "btn btn-outline-dark btn-sm fw-bold px-3" %>
             </div>
           <% end %>
         </div>
