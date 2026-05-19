@@ -1,7 +1,11 @@
 class Pet < ApplicationRecord
   belongs_to :group
+  has_many :care_items, dependent: :destroy
 
   validates :name, presence: true
+  validates :species, presence: true
+
+  # 💡 クラスの中に正しく収めました
   # 性別などをenumで管理すると便利です
   enum :gender, { unknown: 0, male: 1, female: 2 }
 
@@ -12,4 +16,4 @@ class Pet < ApplicationRecord
     else               '不明'
     end
   end
-end
+end # 💡 クラスの閉じタグは一番最後になります！

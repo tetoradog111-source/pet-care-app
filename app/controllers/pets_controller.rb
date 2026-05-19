@@ -25,6 +25,7 @@ class PetsController < ApplicationController
   end
 
   def show
+    @care_item = @pet.care_items.build
   end
 
   def edit

@@ -1,42 +1,96 @@
-<div class="container mt-4">
-  <div class="mb-3">
-    <%= link_to "← 一覧に戻る", group_path(@group), class: "text-decoration-none text-muted" %>
+<div class="container mt-5" style="max-width: 800px;">
+  
+  <!-- ↩️ 戻るリンク -->
+  <div class="mb-4">
+    <%= link_to "← ファミリー詳細に戻る", group_path(@group), class: "text-decoration-none text-muted fw-bold small" %>
   </div>
 
-  <div class="card shadow-sm mx-auto" style="max-width: 500px;">
-    <div class="card-body text-center">
-      <div class="display-1 mb-3">🐶</div>
-      
-      <h2 class="card-title fw-bold mb-1"><%= @pet.name %></h2>
-      
-      <% # ⭕ 修正：@pet.kind から @pet.species に書き換えます %>
-      <p class="text-muted mb-4"><%= @pet.species %></p>
+  <div class="row g-4">
+    <!-- 👤 左側（または上部）：ペットのプロフィールカード -->
+    <div class="col-md-5">
+      <div class="card shadow-sm border-0 sticky-top" style="top: 2rem;">
+        <div class="card-body text-center py-4">
+          <div class="display-1 mb-3">🐶</div>
+          
+          <h2 class="card-title fw-bold mb-1"><%= @pet.name %></h2>
+          <span class="badge bg-secondary-subtle text-secondary mb-4 px-3 py-2 rounded-pill"><%= @pet.species %></span>
 
-      <table class="table table-borderless text-start mx-auto" style="max-width: 300px;">
-        <tbody>
-          <tr>
-            <th scope="row" class="text-muted fw-normal">年齢</th>
-            <td class="fw-bold text-end"><%= @pet.age %> 歳</td>
-          </tr>
-          <% # 💡 ついでにデータに入っている「性別（gender）」も表示できるようにしておきましょう！ %>
-          <tr>
-            <th scope="row" class="text-muted fw-normal">性別</th>
-            <td class="fw-bold text-end">
-              <%= @pet.gender == 'male' ? 'オス ♂' : 'メス ♀' %>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+          <table class="table table-borderless text-start mx-auto mb-4" style="max-width: 240px;">
+            <tbody>
+              <tr class="border-bottom border-light">
+                <th scope="row" class="text-muted fw-normal py-2">年齢</th>
+                <td class="fw-bold text-end py-2"><%= @pet.age %> 歳</td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-muted fw-normal py-2">性別</th>
+                <td class="fw-bold text-end py-2">
+                  <%= @pet.gender_text %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
 
-      <hr class="my-4">
-
-      <div class="d-grid gap-2">
-        <%= link_to "情報を編集する", edit_group_pet_path(@group, @pet), class: "btn btn-outline-dark fw-bold" %>
-        
-        <%= link_to "ファミリーから削除する", group_pet_path(@group, @pet), 
-                    class: "btn btn-link text-danger text-decoration-none fw-bold mt-2", 
-                    data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" } %>
+          <div class="d-grid gap-2 px-3">
+            <%= link_to "情報を編集する", edit_group_pet_path(@group, @pet), class: "btn btn-outline-dark btn-sm fw-bold rounded-pill" %>
+            
+            <%= link_to "ファミリーから削除する", group_pet_path(@group, @pet), 
+                        class: "text-danger text-decoration-none fw-bold small mt-2 opacity-75 hover-opacity-100", 
+                        data: { turbo_method: :delete, turbo_confirm: "本当に#{@pet.name}の情報を削除しますか？\n（登録したお世話項目もすべて削除されます）" } %>
+          </div>
+        </div>
       </div>
+    </div>
+
+    <!-- 🛠️ 右側（または下部）：お世話の項目設定 -->
+    <div class="col-md-7">
+      <h4 class="fw-bold mb-3 d-flex align-items-center">
+        <span class="me-2">🛠️</span> お世話の項目設定
+      </h4>
+      
+      <!-- 1. 現在登録されているお世話項目の一覧 -->
+      <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body p-4">
+          <h6 class="fw-bold text-muted mb-3">現在の登録項目</h6>
+          
+          <% if @pet.care_items.select(&:persisted?).any? %>
+            <div class="d-flex flex-wrap gap-2">
+              <% @pet.care_items.select(&:persisted?).each do |item| %>
+                <div class="border rounded-pill ps-3 pe-2 py-2 bg-light d-flex align-items-center shadow-sm text-secondary small">
+                  <span class="fw-bold me-2"><%= item.name %></span>
+                  
+                  <%= link_to group_pet_care_item_path(@group, @pet, item), 
+                              data: { turbo_method: :delete, turbo_confirm: "「#{item.name}」を削除しますか？" }, 
+                              class: "badge bg-danger-subtle text-danger rounded-circle text-decoration-none fw-bold ms-1", style: "padding: 0.25em 0.45em;" do %>
+                    ×
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="text-center py-4 text-muted">
+              <p class="mb-1 small">まだお世話項目が登録されていません。</p>
+              <p class="mb-0 x-small text-secondary-50">下のフォームから「ごはん」や「散歩」を追加しましょう！</p>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- 2. 新しいお世話項目の追加フォーム -->
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+          <h6 class="fw-bold text-muted mb-3">新しい項目を追加する</h6>
+          
+          <%= form_with(model: [@group, @pet, @care_item], local: true, class: "row g-2") do |f| %>
+            <div class="col">
+              <%= f.text_field :name, class: "form-control form-control-sm", placeholder: "例: ごはん、散歩、ブラッシング、投薬" %>
+            </div>
+            <div class="col-auto">
+              <%= f.submit "追加", class: "btn btn-dark btn-sm fw-bold px-3" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
