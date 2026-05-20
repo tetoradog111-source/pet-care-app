@@ -2,6 +2,12 @@ class CareRecordsController < ApplicationController
   before_action :require_login
   before_action :set_pet
 
+  def index
+    @care_records = @pet.care_records
+                        .includes(:care_item, :user)
+                        .order(recorded_at: :asc)
+  end
+
   def create
     @care_record = @pet.care_records.build(
       care_item_id: params[:care_item_id],
@@ -24,6 +30,7 @@ class CareRecordsController < ApplicationController
   private
 
   def set_pet
+    @group = Group.find(params[:group_id])
     @pet = Pet.find(params[:pet_id])
   end
 end

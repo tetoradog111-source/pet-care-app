@@ -6,4 +6,8 @@ class CareRecord < ApplicationRecord
   validates :recorded_at, presence: true
 
   validates :care_item_id, uniqueness: { scope: [:pet_id, :recorded_at], message: "同じ時間に同じお世話が既に記録されています" }
+
+  def start_time
+    recorded_at
+  end
 end

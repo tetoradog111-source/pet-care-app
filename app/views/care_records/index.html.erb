@@ -1,0 +1,82 @@
+<div class="container mt-5" style="max-width: 900px;">
+  
+  <!-- ↩️ 戻るリンク -->
+  <div class="mb-4">
+    <%= link_to "← #{@pet.name}の詳細に戻る", group_pet_path(@group, @pet), class: "text-decoration-none text-muted fw-bold small" %>
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold mb-0">🕒 <%= @pet.name %> のお世話履歴</h2>
+    <span class="badge bg-dark px-3 py-2 rounded-pill">全 <%= @care_records.count %> 件の記録</span>
+  end
+
+  <!-- 📅 カレンダーエリア -->
+  <div class="card shadow-sm border-0 p-4 bg-white">
+    <%= month_calendar(events: @care_records) do |date, records| %>
+      <!-- 日付の数字 -->
+      <div class="fw-bold text-secondary small mb-1"><%= date.day %></div>
+
+      <!-- その日の記録たち（新しい順に並べ替えたい場合は .sort_by ） -->
+      <div class="d-flex flex-column gap-1 overflow-y-auto" style="max-height: 100px;">
+        <% if records.any? %>
+          <% records.sort_by(&:recorded_at).each do |record| %>
+            <div class="p-1 rounded bg-light border border-light-subtle" style="font-size: 0.7rem; line-height: 1.2;">
+              <!-- 時間と項目名 -->
+              <span class="fw-bold text-success">[<%= record.care_item.name %>]</span>
+              <span class="text-muted"><%= record.recorded_at.strftime("%H:%M") %></span>
+              <!-- 誰が -->
+              <div class="text-dark text-truncate">👤 <%= record.user.name %></div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<!-- 💡 simple_calendar のデフォルトデザインを Bootstrap に馴染ませる簡易CSS -->
+<style>
+  .simple-calendar {
+    width: 100%;
+  }
+  .simple-calendar .calendar-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .simple-calendar .calendar-title a {
+    @extend .btn, .btn-sm, .btn-outline-dark, .rounded-pill;
+    text-decoration: none;
+    padding: 0.25rem 0.75rem;
+  }
+  .simple-calendar table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  .simple-calendar th {
+    padding: 0.5rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #6c757d;
+    border-bottom: 2px solid #dee2e6;
+  }
+  .simple-calendar td {
+    width: 14.28%;
+    height: 120px;
+    padding: 0.5rem;
+    border: 1px solid #f8f9fa;
+    vertical-align: top;
+    background-color: #fff;
+  }
+  .simple-calendar .today {
+    background-color: #f8f9fa;
+    box-shadow: inset 0 0 0 2px #212529;
+  }
+  .simple-calendar .prev-month, .simple-calendar .next-month {
+    background-color: #fafafa;
+    opacity: 0.5;
+  }
+</style>

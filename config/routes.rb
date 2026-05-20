@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   resources :groups, only: [:new, :create, :show] do
     resources :pets do
       resources :care_items, only: [:create, :destroy]
-      resources :care_records, only: [:create, :destroy]
+      resources :care_records, only: [:index, :create, :destroy]
     end
   end
 end
