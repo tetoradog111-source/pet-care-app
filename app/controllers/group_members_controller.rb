@@ -1,6 +1,6 @@
 class GroupMembersController < ApplicationController
   before_action :require_login
-
+  before_action :reject_non_group_members
   def new
     # 招待コードを入力するだけの画面なので、特別なインスタンス変数は不要です
   end

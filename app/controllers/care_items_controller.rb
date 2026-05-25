@@ -1,6 +1,7 @@
 class CareItemsController < ApplicationController
   before_action :require_login
   before_action :set_pet
+  before_action :reject_non_group_members
 
   def create
     # ペットに紐づく新しいお世話項目を作成

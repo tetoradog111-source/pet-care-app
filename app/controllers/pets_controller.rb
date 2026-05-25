@@ -1,7 +1,7 @@
 class PetsController < ApplicationController
   before_action :require_login
   before_action :ensure_group_member
-  # 💡 :new や :create は、特定の1匹のペットを特定する前なので、:set_pet からは除外しておきます
+  before_action :reject_non_group_members, only: [:show, :edit, :update, :destroy]
   before_action :set_pet, only: [:show, :edit, :update, :destroy]
 
   def index

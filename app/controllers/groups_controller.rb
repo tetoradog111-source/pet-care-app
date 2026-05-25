@@ -1,6 +1,7 @@
 class GroupsController < ApplicationController
   # ログインしていないとグループ作成できないようにする
   before_action :require_login
+  before_action :reject_non_group_members
 
   def new
     @group = Group.new

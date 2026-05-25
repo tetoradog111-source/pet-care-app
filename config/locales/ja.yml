@@ -1,10 +1,14 @@
 ja:
-  # 1. Rails標準のバリデーションエラーとモデル名の日本語化
+ 
+  errors:
+    messages:
+      blank: "を入力してください"
+      taken: "はすでに使用されています"
+      too_short: "は%{count}文字以上で入力してください"
+      too_long: "は%{count}文字以内で入力してください"
+
+  
   activerecord:
-    errors:
-      messages:
-        blank: "を入力してください"
-        taken: "はすでに使用されています"
     models:
       pet: "ペット"
       group: "グループ"
@@ -23,7 +27,7 @@ ja:
         password: "パスワード"
         password_confirmation: "パスワード（確認用）"
 
-  # 2. ペットの性別（Enum）の日本語化
+  
   enums:
     pet:
       gender:
@@ -31,12 +35,12 @@ ja:
         male: "男の子（オス）"
         female: "女の子（メス）"
 
-  # 3. カレンダー（simple_calendar）の日本語化
+ 
   simple_calendar:
     previous: "◀"
     next: "▶"
 
-  # 4. 日付・時刻の日本語フォーマット
+ 
   date:
     abbr_day_names: [日, 月, 火, 水, 木, 金, 土]
     day_names: [日曜日, 月曜日, 火曜日, 水曜日, 木曜日, 金曜日, 土曜日]
