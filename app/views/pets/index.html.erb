@@ -1,4 +1,13 @@
 <% content_for(:title, "ペット一覧") %>
+
+<% if params[:select_calendar] == 'true' %>
+  <!-- カレンダータブから来た時だけ表示される特別な案内 -->
+  <div class="alert alert-info text-center shadow-sm border-0 mb-4 py-3 mx-auto" style="border-radius: 1rem; background-color: #f0fdf4; color: #166534; max-width: 800px;">
+    <h5 class="fw-bold mb-1">📅 どの子のカレンダーを見ますか？</h5>
+    <p class="small mb-0 opacity-75">下の一覧から、カレンダーを見たいペットを選んでタップしてください。</p>
+  </div>
+<% end %>
+
 <div class="container py-5">
   <div class="d-flex justify-content-between align-items-center mb-5 mx-auto" style="max-width: 800px;">
     <h1 class="h2 fw-bold mb-0" style="color: #7c2d12;">🐾 <%= @group.name %> のペットたち</h1>
@@ -12,25 +21,29 @@
       <% @pets.each do |pet| %>
         <div class="col">
           <div class="card h-100 shadow-sm border-0 position-relative" style="border-radius: 1rem; overflow: hidden;">
-            <%# ここに将来的にペットの画像（Active Storageなど）を入れられるように枠を作っておきます %>
-            <div class="bg-light d-flex align-items-center justify-content-center" style="height: 160px; background-color: #fef3c7 !important;">
-              <span class="display-3">🐶</span> <%# 猫などのアイコン分岐を後で入れても楽しいです %>
-            </div>
             
-            <div class="card-body p-4 text-center">
-              <h2 class="card-title h4 fw-bold text-dark mb-2"><%= pet.name %></h2>
-              <span class="badge bg-secondary mb-3 px-3 py-2" style="font-size: 0.85rem;"><%= pet.species %></span>
-              
-              <p class="card-text text-muted small mb-0">
-                <%= "#{pet.age}歳" if pet.age.present? %> 
-                (<%= pet.gender_text %>)
-              </p>
-            </div>
+            <% # 💡 リンク先の切り替えロジック %>
+            <% target_path = params[:select_calendar] == 'true' ? group_pet_care_records_path(@group, pet) : group_pet_path(@group, pet) %>
 
-            <%# 詳細画面へのリンク（後で実装する個別画面用） %>
-            <h5 class="card-title fw-bold">
-  <%= link_to "🐶 #{pet.name}", group_pet_path(@group, pet), class: "text-decoration-none text-dark" %>
-</h5>
+            <%= link_to target_path, class: "text-decoration-none text-dark h-100 d-flex flex-column" do %>
+              <%# ペットの画像枠 %>
+              <div class="bg-light d-flex align-items-center justify-content-center" style="height: 160px; background-color: #fef3c7 !important;">
+                <span class="display-3">🐶</span>
+              </div>
+              
+              <div class="card-body p-4 text-center d-flex flex-column justify-content-between flex-grow-1">
+                <div>
+                  <h2 class="card-title h4 fw-bold text-dark mb-2"><%= pet.name %></h2>
+                  <span class="badge bg-secondary-subtle text-secondary mb-3 px-3 py-2" style="font-size: 0.85rem;"><%= pet.species %></span>
+                </div>
+                
+                <p class="card-text text-muted small mb-0">
+                  <%= "#{pet.age}歳" if pet.age.present? %> 
+                  (<%= pet.gender_text %>)
+                </p>
+              </div>
+            <% end %>
+
           </div>
         </div>
       <% end %>
@@ -44,9 +57,5 @@
         </div>
       </div>
     <% end %>
-  </div>
-
-  <div class="mt-5 text-center">
-    <%= link_to "グループ詳細へ戻る", group_path(@group), class: "text-decoration-none small text-muted" %>
   </div>
 </div>

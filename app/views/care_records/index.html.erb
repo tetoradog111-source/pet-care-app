@@ -7,25 +7,42 @@
 
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="fw-bold mb-0">🕒 <%= @pet.name %> のお世話履歴</h2>
-    <span class="badge bg-dark px-3 py-2 rounded-pill">全 <%= @care_records.count %> 件の記録</span>
-  end
+    <span class="badge bg-dark px-3 py-2 rounded-pill small">全 <%= @care_records.count %> 件</span>
+  </div>
 
   <!-- 📅 カレンダーエリア -->
-  <div class="card shadow-sm border-0 p-4 bg-white">
+  <% 
+  # URLのパラメータ(params[:start_date])があればそれを日付に変換し、無ければ今日の日付を使います
+  view_date = params[:start_date].present? ? Date.parse(params[:start_date]) : Date.current
+  current_month = view_date.month 
+%>
+  <div class="card shadow-sm border-0 p-4 mb-5 calendar-card month-<%= current_month %>">
     <%= month_calendar(events: @care_records) do |date, records| %>
       <!-- 日付の数字 -->
-      <div class="fw-bold text-secondary small mb-1"><%= date.day %></div>
+      <div class="fw-bold text-secondary small mb-2"><%= date.day %></div>
 
-      <!-- その日の記録たち（新しい順に並べ替えたい場合は .sort_by ） -->
-      <div class="d-flex flex-column gap-1 overflow-y-auto" style="max-height: 100px;">
+      <!-- その日の記録たち -->
+      <div class="d-flex flex-column gap-1 overflow-y-auto" style="max-height: 90px;">
         <% if records.any? %>
           <% records.sort_by(&:recorded_at).each do |record| %>
-            <div class="p-1 rounded bg-light border border-light-subtle" style="font-size: 0.7rem; line-height: 1.2;">
-              <!-- 時間と項目名 -->
-              <span class="fw-bold text-success">[<%= record.care_item.name %>]</span>
-              <span class="text-muted"><%= record.recorded_at.strftime("%H:%M") %></span>
-              <!-- 誰が -->
-              <div class="text-dark text-truncate">👤 <%= record.user.name %></div>
+            
+            <!-- お世話の種類によって背景色を変えるロジック -->
+            <% 
+              bg_class = case record.care_item.name
+                         when /ごはん|エサ|給餌/ then 'bg-warning-subtle text-warning-emphasis'
+                         when /散歩|お出かけ/ then 'bg-success-subtle text-success-emphasis'
+                         when /トイレ|うんち|おしっこ/ then 'bg-primary-subtle text-primary-emphasis'
+                         when /ブラッシング|歯磨き|ケア/ then 'bg-info-subtle text-info-emphasis'
+                         else 'bg-light text-dark'
+                         end
+            %>
+
+            <div class="p-1 rounded border border-light-subtle <%= bg_class %>" style="font-size: 0.7rem; line-height: 1.2;">
+              <div class="d-flex justify-content-between align-items-center mb-0.5">
+                <span class="fw-bold">[<%= record.care_item.name %>]</span>
+                <span class="text-secondary" style="font-size: 0.6rem;"><%= record.recorded_at.strftime("%H:%M") %></span>
+              </div>
+              <div class="text-truncate opacity-75">👤 <%= record.user.name %></div>
             </div>
           <% end %>
         <% end %>
@@ -34,7 +51,7 @@
   </div>
 </div>
 
-<!-- 💡 simple_calendar のデフォルトデザインを Bootstrap に馴染ませる簡易CSS -->
+<!-- 🎨 simple_calendar を Bootstrap風に可愛く仕上げるCSS -->
 <style>
   .simple-calendar {
     width: 100%;
@@ -42,41 +59,91 @@
   .simple-calendar .calendar-title {
     font-size: 1.25rem;
     font-weight: bold;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    color: #212529;
   }
   .simple-calendar .calendar-title a {
-    @extend .btn, .btn-sm, .btn-outline-dark, .rounded-pill;
-    text-decoration: none;
+    display: inline-block;
     padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: bold;
+    color: #212529;
+    text-decoration: none;
+    background-color: transparent;
+    border: 1px solid #212529;
+    border-radius: 50rem;
+    transition: all 0.2s;
+  }
+  .simple-calendar .calendar-title a:hover {
+    background-color: #212529;
+    color: #fff;
   }
   .simple-calendar table {
     border-collapse: collapse;
     width: 100%;
+    border-radius: 0.5rem;
+    overflow: hidden;
   }
   .simple-calendar th {
-    padding: 0.5rem;
+    padding: 0.75rem;
     text-align: center;
     font-size: 0.85rem;
-    color: #6c757d;
+    font-weight: bold;
+    color: #495057;
+    background-color: #f8f9fa;
     border-bottom: 2px solid #dee2e6;
   }
   .simple-calendar td {
     width: 14.28%;
-    height: 120px;
+    height: 130px;
     padding: 0.5rem;
-    border: 1px solid #f8f9fa;
+    border: 1px solid #f1f3f5;
     vertical-align: top;
-    background-color: #fff;
   }
   .simple-calendar .today {
-    background-color: #f8f9fa;
-    box-shadow: inset 0 0 0 2px #212529;
+    background-color: #fffdf6;
+    outline: 2px solid #198754;
+    outline-offset: -2px;
   }
   .simple-calendar .prev-month, .simple-calendar .next-month {
-    background-color: #fafafa;
-    opacity: 0.5;
+    background-color: #fafbfa;
+    opacity: 0.4;
+  }
+  .overflow-y-auto::-webkit-scrollbar {
+    width: 4px;
+  }
+  .overflow-y-auto::-webkit-scrollbar-thumb {
+    background: #ced4da;
+    border-radius: 2px;
+  }
+
+  /* 🌸 春（3, 4, 5月） */
+  .month-3, .month-4, .month-5 {
+    background-color: #fff5f5 !important;
+    border-top: 5px solid #ffc0cb;
+  }
+  /* ☀️ 夏（6, 7, 8月） */
+  .month-6, .month-7, .month-8 {
+    background-color: #f0faff !important;
+    border-top: 5px solid #7dc3ee;
+  }
+  /* 🍁 秋（9, 10, 11月） */
+  .month-9, .month-10, .month-11 {
+    background-color: #fffcf5 !important;
+    border-top: 5px solid #e6a754;
+  }
+  /* ❄️ 冬（12, 1, 2月） */
+  .month-12, .month-1, .month-2 {
+    background-color: #f8f9fa !important;
+    border-top: 5px solid #6c757d;
+  }
+  .calendar-card table, .calendar-card td {
+    background-color: transparent !important;
+  }
+  .simple-calendar td {
+    background-color: rgba(255, 255, 255, 0.85) !important;
   }
 </style>

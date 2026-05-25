@@ -1,0 +1,5 @@
+.d-grid > input[type="submit"],
+.d-grid > button,
+.d-grid > .btn {
+  width: 100% !important;
+}

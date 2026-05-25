@@ -1,5 +1,5 @@
-<% # 💡 対策1: コンテナ自体に `pb-5`（下方向の大きなパディング）を追加して、フッターがメニューの裏に入り込むのを防ぎます %>
-<div class="container py-5 text-center pb-5">
+<!-- 🚀 1行目に `style` を追加して、下部タブバーと被らないクッションを作ります -->
+<div class="container py-5 text-center pb-5" style="margin-bottom: 120px;">
   <% # グループ名 %>
   <h1 class="display-5 fw-bold" style="color: #7c2d12;"><%= @group.name %></h1>
   
@@ -10,41 +10,14 @@
       <%= @group.invite_code %>
     </h2>
     <p class="mt-3 small text-muted mb-0">
-      このコードを家族に教えて、アプリに参加してもわりましょう！
+      このコードを家族に教えて、アプリに参加してもらいましょう！
     </p>
   </div>
-</div>
 
-<% # ========================================== %>
-<% # スマホ用：画面下部固定のボトムナビゲーション %>
-<% # ========================================== %>
-<div class="fixed-bottom bg-white border-top shadow-lg" style="z-index: 1030; height: 68px; border-radius: 16px 16px 0 0;">
-  <div class="d-flex justify-content-around align-items-center h-100 px-2">
-    
-    <% # 1. ホーム %>
-    <%= link_to group_path(@group), class: "nav-btn text-center text-decoration-none flex-grow-1 #{current_page?(group_path(@group)) ? 'active' : ''}" do %>
-      <div class="icon-wrapper">🏠</div>
-      <div class="nav-label">ホーム</div>
+  <!-- 🚀 新しいグループを追加するボタンを配置 -->
+  <div class="mt-5 mx-auto" style="max-width: 500px;">
+    <%= link_to new_group_path, class: "btn btn-outline-dark btn-sm fw-bold rounded-pill px-4 py-2.5 shadow-sm d-inline-flex align-items-center gap-2", style: "border-color: #7c2d12; color: #7c2d12;" do %>
+      <span>➕</span> 新しいグループを作成・追加
     <% end %>
-
-    <% # 2. ペット詳細 %>
-    <%= link_to group_pets_path(@group), class: "nav-btn text-center text-decoration-none flex-grow-1 #{current_page?(group_pets_path(@group)) ? 'active' : ''}" do %>
-      <div class="icon-wrapper">🐾</div>
-      <div class="nav-label">ペット</div>
-    <% end %>
-
-    <% # 3. お世話記録（仮） %>
-    <%= link_to '#', class: "nav-btn text-center text-decoration-none flex-grow-1 disabled-btn" do %>
-      <div class="icon-wrapper">📋</div>
-      <div class="nav-label">お世話</div>
-    <% end %>
-
-    <% # 4. メニュー（仮） %>
-    <%= link_to '#', class: "nav-btn text-center text-decoration-none flex-grow-1 disabled-btn" do %>
-      <div class="icon-wrapper">⚙️</div>
-      <div class="nav-label">メニュー</div>
-    <% end %>
-
   </div>
 </div>
-

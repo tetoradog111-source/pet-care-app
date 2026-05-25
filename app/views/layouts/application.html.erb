@@ -26,9 +26,33 @@
       <%= yield %>
     </main>
 
-    <%# 💡 修正：ログインしていない場合のみ、従来のフッターを表示する %>
+    <%# 💡 ログインしていない場合のみ、従来のフッターを表示する %>
     <% unless logged_in? %>
       <%= render 'shared/footer' %>
     <% end %>
+
+ <% if @group.present? && @group.persisted? %>
+  <div class="fixed-bottom mb-4 mx-auto px-3" style="max-width: 500px; z-index: 1050;">
+    <div class="bg-white shadow-lg border border-light py-2 px-4 d-flex justify-content-around align-items-center" style="border-radius: 2rem; background-color: rgba(255, 255, 255, 0.95) !important; backdrop-filter: blur(10px);">
+      
+      <%= link_to group_pets_path(@group), class: "d-flex flex-column align-items-center text-decoration-none w-100", style: "color: #ea580c; font-weight: bold;" do %>
+        <span class="fs-4">🐾</span>
+        <span style="font-size: 0.65rem; margin-top: 2px;">ペット一覧</span>
+      <% end %>
+
+       <%= link_to group_pets_path(@group, select_calendar: true), class: "d-flex flex-column align-items-center text-decoration-none text-muted w-100" do %>
+        <span class="fs-4">📅</span>
+        <span style="font-size: 0.65rem; margin-top: 2px;">カレンダー</span>
+      <% end %>
+
+      <%= link_to group_path(@group), class: "d-flex flex-column align-items-center text-decoration-none text-muted w-100" do %>
+        <span class="fs-4">👥</span>
+        <span style="font-size: 0.65rem; margin-top: 2px;">グループ詳細</span>
+      <% end %>
+
+    </div>
+  </div>
+<% end %>
+
   </body>
 </html>
