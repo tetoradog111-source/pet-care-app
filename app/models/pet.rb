@@ -2,6 +2,7 @@ class Pet < ApplicationRecord
   belongs_to :group
   has_many :care_items, dependent: :destroy
   has_many :care_records, dependent: :destroy
+  has_one_attached :avatar
 
   validates :name, presence: true
   validates :species, presence: true
