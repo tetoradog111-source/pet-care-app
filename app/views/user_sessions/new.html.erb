@@ -6,7 +6,7 @@
       <h1 class="text-center my-4">ログイン</h1>
 
       <%# モデルがないため、url: login_path を指定します %>
-      <%= form_with url: login_path, local: true do |f| %>
+      <%= form_with url: login_path, data: { turbo: false } do |f| %>
         <div class="mb-3">
           <%= f.label :email, "メールアドレス", class: "form-label" %>
           <%= f.email_field :email, class: "form-control", placeholder: "example@example.com" %>
