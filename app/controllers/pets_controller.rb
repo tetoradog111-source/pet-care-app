@@ -1,19 +1,16 @@
 class PetsController < ApplicationController
   before_action :require_login
   before_action :ensure_group_member
-  # 💡 :new や :create は、特定の1匹のペットを特定する前なので、:set_pet からは除外しておきます
   before_action :set_pet, only: [:show, :edit, :update, :destroy]
 
   def index
     @pets = @group.pets
   end
 
-  # 💡 新しく追加：新規登録画面を表示するアクション
   def new
-    @pet = @group.pets.build # または @pet = Pet.new
+    @pet = @group.pets.build
   end
 
-  # 💡 新しく追加（あるいは修正）：フォームから送信されたデータを保存するアクション
   def create
     @pet = @group.pets.build(pet_params)
     if @pet.save
@@ -47,10 +44,16 @@ class PetsController < ApplicationController
 
   private
 
+  # 🛠️ 修正版：endの数を完璧に合わせた安全なメソッド
   def ensure_group_member
-    @group = Group.find(params[:group_id])
-    unless current_user.groups.include?(@group)
-      redirect_to groups_path, alert: "このグループの情報を閲覧する権限がありません。"
+    group_id = params[:group_id] || current_user.groups.first&.id
+    
+    if group_id
+      @group = Group.find(group_id)
+    end
+
+    if @group.nil? || !current_user.groups.include?(@group)
+      redirect_to root_path, alert: "グループの閲覧権限がないか、グループが存在しません。"
     end
   end
 
@@ -59,6 +62,9 @@ class PetsController < ApplicationController
   end
 
   def pet_params
-    params.require(:pet).permit(:name, :species, :age, :gender)
+    params.require(:pet).permit(:name, # ここは元々のコードに合わせて項目を追加・修正してください
+                                 :species, 
+                                 :age, 
+                                 :gender)
   end
-end
+end # 👈 コントローラ全体の終わりを閉じる、最後のend

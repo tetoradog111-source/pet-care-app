@@ -11,8 +11,7 @@ class UserSessionsController < ApplicationController
       if group
         redirect_to group_pets_path(group), notice: "ログインしました"
       else
-        # 万が一、まだどこのグループにも所属していないイレギュラーな状態の時はルートへ
-        redirect_to root_path, notice: "ログインしました"
+       redirect_to new_pet_path, notice: "ログインしました！まずはペットを登録してみましょう！"
       end
           
     else
