@@ -5,15 +5,7 @@ class UserSessionsController < ApplicationController
     @user = login(params[:email], params[:password])
 
     if @user
-      group = @user.groups.first
-
-      # 🚀 修正：グループが存在すれば、そのグループの「ペット一覧画面」へ一直線！
-      if group
-        redirect_to group_pets_path(group), notice: "ログインしました"
-      else
-       redirect_to new_pet_path, notice: "ログインしました！まずはペットを登録してみましょう！"
-      end
-          
+      redirect_to groups_path, notice: "ログインしました"
     else
       flash.now[:alert] = 'ログインに失敗しました'
       render :new, status: :unprocessable_entity

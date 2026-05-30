@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   resources :group_members, only: [:new, :create]
   
   # 💡 グループとペットの親子関係を1つに綺麗にまとめました
-  resources :groups, only: [:new, :create, :show] do
+  resources :groups, only: [:new, :create, :show, :index,:destroy] do
     resources :pets do
       resources :care_items, only: [:create, :destroy]
       resources :care_records, only: [:index, :create, :destroy]
