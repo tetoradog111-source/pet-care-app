@@ -5,7 +5,8 @@ class UserSessionsController < ApplicationController
     @user = login(params[:email], params[:password])
 
     if @user
-      redirect_to groups_path, notice: "ログインしました"
+      # 🚀 修正：status: :see_other を必ず追加して、本番環境のTurboフリーズを撃退します！
+      redirect_to groups_path, notice: "ログインしました", status: :see_other
     else
       flash.now[:alert] = 'ログインに失敗しました'
       render :new, status: :unprocessable_entity
