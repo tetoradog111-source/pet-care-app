@@ -1,19 +1,17 @@
 class PetsController < ApplicationController
   before_action :require_login
+  # 💡 issue15でブラッシュアップした安全な権限チェックに一本化
   before_action :ensure_group_member
-  before_action :reject_non_group_members, only: [:show, :edit, :update, :destroy]
   before_action :set_pet, only: [:show, :edit, :update, :destroy]
 
   def index
     @pets = @group.pets
   end
 
-  # 💡 新しく追加：新規登録画面を表示するアクション
   def new
-    @pet = @group.pets.build # または @pet = Pet.new
+    @pet = @group.pets.build
   end
 
-  # 💡 新しく追加（あるいは修正）：フォームから送信されたデータを保存するアクション
   def create
     @pet = @group.pets.build(pet_params)
     if @pet.save
@@ -46,11 +44,20 @@ class PetsController < ApplicationController
   end
 
   private
+ def ensure_group_member
+    group_id = params[:group_id] || current_user.groups.first&.id
+    
+    if group_id
+      @group = Group.find_by(id: group_id) 
+    end
 
-  def ensure_group_member
-    @group = Group.find(params[:group_id])
-    unless current_user.groups.include?(@group)
-      redirect_to groups_path, alert: "このグループの情報を閲覧する権限がありません。"
+    if @group.nil?
+      redirect_to groups_path, alert: "お世話するグループを選択してください。"
+      return 
+    end
+
+    if !current_user.groups.include?(@group)
+      redirect_to root_path, alert: "グループの閲覧権限がないか、グループが存在しません。"
     end
   end
 
@@ -59,6 +66,7 @@ class PetsController < ApplicationController
   end
 
   def pet_params
+    # 🚀 画像アップロード用の :avatar を含めてしっかり許可します
     params.require(:pet).permit(:name, :species, :age, :gender, :avatar)
   end
 end

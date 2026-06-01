@@ -1,26 +1,23 @@
 class GroupMembersController < ApplicationController
   before_action :require_login
-  before_action :reject_non_group_members
-  def new
-    # 招待コードを入力するだけの画面なので、特別なインスタンス変数は不要です
-  end
+  # 🚀 修正：まだ参加していない人がアクセスする場所なので、reject_non_group_members は削除しました！
 
   def create
     # 入力されたコードでグループを検索
     group = Group.find_by(invite_code: params[:invite_code])
 
     if group
-      # 二重参加バリデーションに引っかからないかチェックしつつ保存
+      # 二重参加を防止
       if group.users.include?(current_user)
-        redirect_to new_group_member_path, alert: "既にそのグループに参加しています"
+        redirect_to groups_path, alert: "既にそのグループに参加しています"
       else
         group.users << current_user
-        redirect_to group_path(group), notice: "#{group.name} に参加しました！"
+        redirect_to groups_path, notice: "「#{group.name}」に参加しました！"
       end
     else
-      # グループが見つからない場合
-      flash.now[:alert] = "招待コードが正しくありません"
-      render :new, status: :unprocessable_entity
+      # 🚀 修正：一覧画面（groups_path）のフォームから送信されるため、
+      # エラー時も groups_path に戻してお知らせ（alert）を表示します
+      redirect_to groups_path, alert: "招待コードが正しくありません"
     end
   end
 end

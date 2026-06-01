@@ -3,6 +3,10 @@ class GroupsController < ApplicationController
   before_action :require_login
   before_action :reject_non_group_members
 
+  def index
+    @groups = current_user.groups
+  end
+
   def new
     @group = Group.new
   end
@@ -21,6 +25,12 @@ class GroupsController < ApplicationController
 
   def show
     @group = Group.find(params[:id])
+  end
+
+  def destroy
+    group = current_user.groups.find(params[:id])
+    group.destroy!
+    redirect_to groups_path, notice: 'グループを削除しました', status: :see_other
   end
 
   private

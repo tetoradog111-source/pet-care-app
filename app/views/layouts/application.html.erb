@@ -31,25 +31,38 @@
       <%= render 'shared/footer' %>
     <% end %>
 
- <% if @group.present? && @group.persisted? %>
+ <% if logged_in? %>
   <div class="fixed-bottom mb-4 mx-auto px-3" style="max-width: 500px; z-index: 1050;">
     <div class="bg-white shadow-lg border border-light py-2 px-4 d-flex justify-content-around align-items-center" style="border-radius: 2rem; background-color: rgba(255, 255, 255, 0.95) !important; backdrop-filter: blur(10px);">
       
-      <%= link_to group_pets_path(@group), class: "d-flex flex-column align-items-center text-decoration-none w-100", style: "color: #ea580c; font-weight: bold;" do %>
-        <span class="fs-4">🐾</span>
-        <span style="font-size: 0.65rem; margin-top: 2px;">ペット一覧</span>
+      <%# 💡 ペット一覧ボタン：特定のグループを選択中（@groupがある時）だけ押せるように制限（なければ薄く表示） %>
+      <% if @group.present? && @group.persisted? %>
+        <%= link_to group_pets_path(@group), class: "d-flex flex-column align-items-center text-decoration-none w-100", style: "color: #ea580c; font-weight: bold;" do %>
+          <span class="fs-4">🐾</span>
+          <span style="font-size: 0.65rem; margin-top: 2px;">ペット</span>
+        <% end %>
+
+        <%= link_to group_pets_path(@group, select_calendar: true), class: "d-flex flex-column align-items-center text-decoration-none text-muted w-100" do %>
+          <span class="fs-4">📅</span>
+          <span style="font-size: 0.65rem; margin-top: 2px;">カレンダー</span>
+        <% end %>
+      <% else %>
+        <% # 💡 グループ未選択の時は、カレンダーとペット一覧を半透明にして無効化（誤動作防止） %>
+        <div class="d-flex flex-column align-items-center text-muted w-100 opacity-50">
+          <span class="fs-4">🐾</span>
+          <span style="font-size: 0.65rem; margin-top: 2px;">ペット</span>
+        </div>
+        <div class="d-flex flex-column align-items-center text-muted w-100 opacity-50">
+          <span class="fs-4">📅</span>
+          <span style="font-size: 0.65rem; margin-top: 2px;">カレンダー</span>
+        </div>
       <% end %>
 
-       <%= link_to group_pets_path(@group, select_calendar: true), class: "d-flex flex-column align-items-center text-decoration-none text-muted w-100" do %>
-        <span class="fs-4">📅</span>
-        <span style="font-size: 0.65rem; margin-top: 2px;">カレンダー</span>
-      <% end %>
-
-      <%= link_to group_path(@group), class: "d-flex flex-column align-items-center text-decoration-none text-muted w-100" do %>
+      <% # 🚀 完璧な修正：特定の詳細ではなく、一律で「グループ一覧（選択）」画面へ飛ばす %>
+      <%= link_to groups_path, class: "d-flex flex-column align-items-center text-decoration-none text-muted w-100" do %>
         <span class="fs-4">👥</span>
-        <span style="font-size: 0.65rem; margin-top: 2px;">グループ詳細</span>
+        <span style="font-size: 0.65rem; margin-top: 2px;">グループ選択</span>
       <% end %>
-
     </div>
   </div>
 <% end %>
