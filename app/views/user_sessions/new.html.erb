@@ -1,11 +1,3 @@
-ログイン画面のビューファイル（app/views/user_sessions/new.html.erb）でも、もう一度 HEAD と origin/main の衝突が起きましたね！
-
-ここも PetsController と同様に、やりたいことは「本番環境での不具合を防ぐために data: { turbo: false } を確実に効かせる」ということで双方一致しています。
-
-より安全で確実な local: true と data: { turbo: false } を両方含んだ形に一本化しました。このファイルの中身を丸ごと以下のコードに置き換えて上書き保存してください！
-
-🛠️ app/views/user_sessions/new.html.erb （最終コンフリクト解消版）
-コード スニペット
 <% content_for(:title, "ログイン") %>
 <div class="container">
   <div class="row">

@@ -44,16 +44,19 @@ class PetsController < ApplicationController
   end
 
   private
-
-  # 🛠️ 修正版：endの数を完璧に合わせた安全なメソッド
-  def ensure_group_member
+ def ensure_group_member
     group_id = params[:group_id] || current_user.groups.first&.id
     
     if group_id
-      @group = Group.find(group_id)
+      @group = Group.find_by(id: group_id) 
     end
 
-    if @group.nil? || !current_user.groups.include?(@group)
+    if @group.nil?
+      redirect_to groups_path, alert: "お世話するグループを選択してください。"
+      return 
+    end
+
+    if !current_user.groups.include?(@group)
       redirect_to root_path, alert: "グループの閲覧権限がないか、グループが存在しません。"
     end
   end
