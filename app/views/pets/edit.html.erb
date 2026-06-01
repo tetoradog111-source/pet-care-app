@@ -42,7 +42,7 @@
         </div>
 
         <!-- 性別 -->
-        <div class="mb-4">
+        <div class="mb-3"> 
           <%= f.label :gender, "性別", class: "form-label fw-bold d-block" %>
           <div class="form-check form-check-inline">
             <%= f.radio_button :gender, "male", class: "form-check-input" %>
@@ -54,6 +54,11 @@
           </div>
         </div>
 
+        <div class="mb-4">
+          <%= f.label :avatar, "ペットの画像", class: "form-label fw-bold" %>
+          <%= f.file_field :avatar, accept: "image/jpeg,image/png,image/gif", class: "form-control" %>
+        </div>
+
         <!-- 送信ボタン -->
         <div class="d-grid">
           <%= f.submit "変更を保存する", class: "btn btn-dark fw-bold btn-lg" %>
@@ -62,4 +67,6 @@
       <% end %>
     </div>
   </div>
+
+  <div class="pb-5 mb-5"></div> 
 </div>

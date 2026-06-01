@@ -1,5 +1,6 @@
 class CareRecordsController < ApplicationController
   before_action :require_login
+  before_action :reject_non_group_members
   before_action :set_pet
 
   def index

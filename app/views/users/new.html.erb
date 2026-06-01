@@ -14,7 +14,7 @@
     <div class="bg-white p-4 p-sm-5 shadow-lg border-top border-5" 
          style="border-color: #fb923c !important; border-radius: 2.5rem !important;">
       
-      <%= form_with model: @user, local: true do |f| %>
+     <%= form_with model: @user, url: users_path, data: { turbo: false } do |f| %>
         <%# エラーメッセージの表示 %>
         <%= render 'shared/error_messages', object: f.object if f.object.errors.any? %>
 
@@ -55,3 +55,4 @@
     </div>
   </div>
 </div>
+

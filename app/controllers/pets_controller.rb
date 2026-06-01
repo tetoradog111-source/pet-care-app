@@ -1,6 +1,6 @@
 class PetsController < ApplicationController
   before_action :require_login
-  # 💡 issue15でブラッシュアップした安全な権限チェック
+  # 💡 issue15でブラッシュアップした安全な権限チェックに一本化
   before_action :ensure_group_member
   before_action :set_pet, only: [:show, :edit, :update, :destroy]
 
@@ -63,7 +63,7 @@ class PetsController < ApplicationController
   end
 
   def pet_params
-    # 🚀 main側にあった画像アップロード用の :avatar もしっかり残して1本化しました！
+    # 🚀 画像アップロード用の :avatar を含めてしっかり許可します
     params.require(:pet).permit(:name, :species, :age, :gender, :avatar)
   end
 end
